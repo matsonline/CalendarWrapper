@@ -2,7 +2,9 @@
 
 
 CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'eventFactory', '$http', 'modalTimeTable', 'modalService', function ($scope, $modal, cwConfig, crudFactory, eventFactory, $http, modalTimeTable, modalService) {
-    // Modal
+    // *************
+    // *** Modal ***
+    // *************
     $scope.modal = {
         id:0,
         title: "",
@@ -33,14 +35,20 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     $scope.timeTable = modalTimeTable;
     $scope.timeSelect = function () {
         if ($scope.modal.time.length == 5)
+            $scope.modal.start = modalService.updateStartFromTimestring($scope.modal.start, $scope.modal.time)
+    };
+    // Date
+    $scope.dateSelect = function () {
         $scope.modal.start = modalService.updateStartFromTimestring($scope.modal.start, $scope.modal.time)
-    }
+    };
 
     $scope.openModal = function () {
         $modal({ template: '/CalendarWrapper/modal.html', persist: true, show: true, backdrop: 'static', scope: $scope });
     };
 
-    // Event sources
+    // *********************
+    // *** Event sources ***
+    // *********************
     $scope.status = "";
     $scope.events = [];
     var pendingEvent = {};
@@ -65,7 +73,9 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     $scope.onserviceclick = function () {
         console.log("option clicked");
     }
-    // Event service
+    // **********************
+    // *** Event services ***
+    // **********************
     $scope.persistEvent = function () {
         if (($scope.modal.mode === "dayclick") || ($scope.modal.mode == "externaldnd")){
             $scope.addEvent();
@@ -78,6 +88,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     };
 
     $scope.filter = { Hairdresser: "" };
+    // Get events
      crudFactory.getEvents($scope.filter).then(function (promise) {
          $scope.events = promise;
         
@@ -91,46 +102,34 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     };
 
 
-
+    // Add event
     $scope.addEvent = function () {
         
         pendingEvent = eventFactory.createEvent($scope.modal.title, $scope.modal.allday, $scope.modal.start, $scope.modal.color); 
         pendingEventSource = eventFactory.createEvent($scope.modal.title, $scope.modal.allday, $scope.modal.start, $scope.modal.color);
         
         crudFactory.addEvent(pendingEvent, [pendingEventSource]).then(function(promise){
-            console.log("addEvent: " + promise);
             $scope.getEvents();
         });
-        // TODO
-        // 2 tim time difference
         
     };
 
+    // Delete event
     $scope.deleteEvent = function (id) {
         crudFactory.deleteEvent(id);
     };
 
+    // Update event
     $scope.updateEvent = function () {
 
         clickEvent = $scope.modal.event;
         updatedEv = {};
         updatedEv.id = $scope.modal.id;
         updatedEv.start = clickEvent.start = $scope.modal.start;
-
-        if ($scope.modal.mode == 'eventclick') {
-            timestring = $scope.modal.time; // a string from timefield
-            timeobject = eventFactory.extractTimeFromString(timestring);
-            clickEvent.start.setHours(timeobject.hh);
-            updatedEv.start.setHours(timeobject.hh);
-            clickEvent.start.setMinutes(timeobject.mm);
-            updatedEv.start.setMinutes(timeobject.mm);
-        }
-
         updatedEv.title = clickEvent.title = $scope.modal.title;
         updatedEv.allDay = clickEvent.allday = $scope.modal.allday;
         updatedEv.color = $scope.modal.color;
 
-        // update calendar
         $('#calendar').fullCalendar('updateEvent', clickEvent);
         crudFactory.updateEvent(updatedEv);
     };

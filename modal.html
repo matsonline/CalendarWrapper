@@ -15,7 +15,7 @@
         </div>-->
         <div id="dateWrapper" class="inputWrapper">
             <label>Datum</label>
-            <input type="text" ng-model="modal.start" data-date-format="yyyy-mm-dd" data-date-weekstart="1" data-date-language="sv-SV" bs-datepicker />
+            <input type="text" ng-model="modal.start" data-date-format="yyyy-mm-dd" data-date-weekstart="1" data-date-language="sv-SV" bs-datepicker ng-change="dateSelect()" />
             <!--<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> -->          
         </div>
         <div id="timeWrapper" class="inputWrapper">
@@ -24,7 +24,7 @@
 
         </div>
     </fieldset>
-    {{modal.id}}
+    {{modal.start}}
     
 
 </div>
