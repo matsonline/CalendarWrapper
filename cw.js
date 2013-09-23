@@ -57,7 +57,6 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
          $scope.Services = promise
     });
 
-
     $scope.showservice = false;
     $scope.onselectservice = function () {      
         console.log("onselectservice");
@@ -95,7 +94,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
 
     $scope.addEvent = function () {
         
-        pendingEvent = eventFactory.createEvent($scope.modal.title, $scope.modal.allday, $scope.modal.start, $scope.modal.color); // need to avoid circular reference
+        pendingEvent = eventFactory.createEvent($scope.modal.title, $scope.modal.allday, $scope.modal.start, $scope.modal.color); 
         pendingEventSource = eventFactory.createEvent($scope.modal.title, $scope.modal.allday, $scope.modal.start, $scope.modal.color);
         
         crudFactory.addEvent(pendingEvent, [pendingEventSource]).then(function(promise){
@@ -108,7 +107,6 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     };
 
     $scope.deleteEvent = function (id) {
-
         crudFactory.deleteEvent(id);
     };
 
@@ -134,11 +132,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
 
         // update calendar
         $('#calendar').fullCalendar('updateEvent', clickEvent);
-
-
         crudFactory.updateEvent(updatedEv);
-        
-
     };
  
 
