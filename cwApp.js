@@ -1,4 +1,4 @@
-﻿var CWApp = angular.module('CWApp', ['$strap.directives']);
+﻿var CWApp = angular.module('CWApp', ['$strap.directives', 'ngAnimate']);
 
 
 

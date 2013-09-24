@@ -3,6 +3,10 @@
 
 CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'eventFactory', '$http', 'modalTimeTable', 'modalService', function ($scope, $modal, cwConfig, crudFactory, eventFactory, $http, modalTimeTable, modalService) {
     // *************
+    // *** Panel ***
+    // *************
+    $scope.haidresserStyle = { border: '1px solid orange' }
+    // *************
     // *** Modal ***
     // *************
     $scope.modal = {
@@ -55,7 +59,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     var pendingEventSource = {};
 
     // Services and Hairdressers
-    $scope.Hairdresser = "empty";
+    $scope.Hairdresser = "John Doe";
     crudFactory.getHairdressers().then(function (promise) {
         $scope.Hairdressers = promise;
     });
