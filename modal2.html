@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>{{modal.header}}</h3>
+</div>
+<div class="modal-body">
+
+    <fieldset>
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Behandling</label>
+                <input type="text" id="service" ng-model="modal.title" bs-typeahead="typeServicesFn" data-min-length="0"/>
+            </div>
+            <div class="span6">
+                <label>Frisör</label>
+                <input type="text" id="hairdresser" ng-model="filter.Hairdresser" bs-typeahead="typeHairdressersFn" data-min-length="0"/>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Datum</label>
+                <input id='datepicker' type="text" ng-model="modal.start" data-date-format="yyyy-mm-dd" data-date-weekstart="1" data-date-language="sv" bs-datepicker ng-change="dateSelect()" />
+            </div>
+            <div class="span6">
+                <label>Kund</label>
+                <input type="text" />
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Start</label>
+                <input type="text" ng-model="modal.time" ng-change="timeSelect()" bs-typeahead="timeTable" />
+            </div>
+            <div class="span6">
+                <label>Telefon</label>
+                <input type="text" />
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Slut</label>
+                <input type="text" ng-model="modal.time" ng-change="timeSelect()" bs-typeahead="timeTable">
+            </div>
+            <div class="span6">
+                <label>E-post</label>
+                <input type="text" />
+            </div>
+        </div>
+        
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-click="deleteEvent(modal.id);hide()">Ta bort</button>
+    <button class="btn btn-success" ng-click="persistEvent();hide()">Spara</button>
+</div>

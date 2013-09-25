@@ -5,7 +5,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     // *************
     // *** Panel ***
     // *************
-    $scope.hairdresserColor = 'orange';
+    $scope.hairdresserColor = 'gray';
     $scope.hairdresserBorderStyle = { border: '1px solid ' + $scope.hairdresserColor };
     $scope.hairdresserColorStyle = { color: $scope.hairdresserColor };
     // *************
@@ -13,7 +13,9 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     // *************
     $scope.modal = {
         id:0,
-        title: "",
+        title: "", // Behandling
+        customer: "",
+        phone:"",
         allday: false,
         start: "",
         end: "",
@@ -51,7 +53,8 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     };
 
     $scope.openModal = function () {
-        $modal({ template: '/CalendarWrapper/modal.html', persist: true, show: true, backdrop: 'static', scope: $scope });
+        
+        $modal({ template: '/CalendarWrapper/modal2.html', persist: true, show: true, backdrop: 'static', scope: $scope });
     };
 
     // *********************
@@ -63,19 +66,27 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     var pendingEventSource = {};
 
     // Services and Hairdressers
-    $scope.Hairdresser = {
-        Name: "",
-        color: ""
-    };
 
     crudFactory.getHairdressers().then(function (promise) {
         $scope.Hairdressers = promise;
     });
 
+    $scope.typeHairdressersFn = function () {
+        return $.map($scope.Hairdressers, function (obj) {
+            return obj.Name;
+        });
+    };
+
     $scope.selectedService = "";
     crudFactory.getServices().then(function (promise) {
          $scope.Services = promise
     });
+
+    $scope.typeServicesFn = function () {
+        return $.map($scope.Services, function (obj) {
+            return obj.text;
+        });
+    }
 
     $scope.showservice = false;
 
