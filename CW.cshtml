@@ -11,16 +11,16 @@
         <div class="panel">
             <div id="imageBox" ng-switch on="filter.Hairdresser" @*ng-animate="'wave'"*@ class="animate-switch-container">
                 <div ng-switch-when="John Doe">
-                    <img ng-style="haidresserStyle" src="~/Content/images/JohnDoe.jpg" />
+                    <img ng-style="hairdresserBorderStyle" src="~/Content/images/JohnDoe.jpg" />
                 </div>
                 <div ng-switch-when="Jane Doe">
-                    <img ng-style="haidresserStyle" src="~/Content/images/JaneDoe.jpg" />
+                    <img ng-style="hairdresserBorderStyle" src="~/Content/images/JaneDoe.jpg" />
                 </div>
                 <div ng-switch-when="Tim Brown">
-                    <img ng-style="haidresserStyle" src="~/Content/images/TimBrown.jpg" />
+                    <img ng-style="hairdresserBorderStyle" src="~/Content/images/TimBrown.jpg" />
                 </div>
                 <div ng-switch-when="Sarah Red">
-                    <img ng-style="haidresserStyle" src="~/Content/images/SarahReed.jpg" />
+                    <img ng-style="hairdresserBorderStyle" src="~/Content/images/SarahReed.jpg" />
                 </div>
                 @*<div ng-switch-default>
                     <img ng-style="haidresserStyle" src="~/Content/images/JohnDoe.jpg" />
@@ -29,13 +29,16 @@
             <div id="selectboxwrapper">
                 <select style="width: 140px" hairdresser-selectbox>
                     <option></option>
-                    <option value="" ng-repeat="Hairdresser in Hairdressers">{{Hairdresser.Name}}</option>
+                    <option value={{Hairdresser.color}} ng-repeat="Hairdresser in Hairdressers">{{Hairdresser.Name}}</option>
                 </select>
-                <select id="servicesbx" style="width: 140px; margin-top: 10px" service-selectbox @*ng-model="Service" ng-change="onselectservice()"*@>
+                <select id="servicesbx" style="width: 140px; margin-top: 10px" service-selectbox @*ng-model="selectedService" ng-change="onselectservice()"*@>
                     <option></option>
                     <option value="" ng-repeat="Service in Services">{{Service.text}}</option>
                 </select>
+                <div id="dndBox" ng-style="hairdresserBorderStyle" class="draggable" ng-show="showservice"><br/><p ng-style="hairdresserColorStyle">Dra till Kalender</p></div>
+
             </div>
+            
 
 
 

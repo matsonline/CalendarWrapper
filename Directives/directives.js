@@ -32,9 +32,10 @@
             },
             cwConfig.drop = function (date) {
                 // external drop
+                scope.modal.title = scope.selectedService;
                 scope.modal.clickMode('externaldnd');
                 scope.modal.start = date;
-                scope.modal.color = scope.Hairdresser.color;
+                //scope.modal.color = scope.Hairdresser.color;
                 scope.persistEvent();
                 console.log("Dropped at: " + date);
             },
@@ -54,7 +55,7 @@
     };
 }]);
 
-CWApp.directive('hairdresserSelectbox', function () {
+CWApp.directive('hairdresserSelectbox', ['modalService', function (modalService) {
 
     return {
         restrict: 'A',
@@ -66,12 +67,15 @@ CWApp.directive('hairdresserSelectbox', function () {
 
             elem.on("select2-selecting", function (e) {
                 scope.filter.Hairdresser = e.object.text;
+                scope.modal.color = scope.hairdresserColor = e.val;
+                scope.hairdresserBorderStyle = { border: '1px solid ' + scope.hairdresserColor };
+                scope.hairdresserColorStyle = { color: scope.hairdresserColor };
                 scope.$apply();
                 scope.getEvents();
             });
         }
     }
-});
+}]);
 
 CWApp.directive('serviceSelectbox', function () {
 
@@ -85,7 +89,10 @@ CWApp.directive('serviceSelectbox', function () {
 
             elem.on("select2-selecting", function (e) {
                 
-                console.log(e.object.text)
+                console.log(e.object.text);
+                scope.selectedService = e.object.text;
+                scope.showservice = true;
+                scope.$apply();
             });
         }
     }

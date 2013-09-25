@@ -5,7 +5,9 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     // *************
     // *** Panel ***
     // *************
-    $scope.haidresserStyle = { border: '1px solid orange' }
+    $scope.hairdresserColor = 'orange';
+    $scope.hairdresserBorderStyle = { border: '1px solid ' + $scope.hairdresserColor };
+    $scope.hairdresserColorStyle = { color: $scope.hairdresserColor };
     // *************
     // *** Modal ***
     // *************
@@ -21,13 +23,15 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
 
             if (mode === 'dayclick') {
                 this.header = 'Boka ny tid!';
+                this.time = modalService.getTimeString(this.start)
             } else if (mode === 'eventclick') {
                 this.header = 'Ändra bokning';
+                this.time = modalService.getTimeString(this.start)
             } else if (mode === 'dnd'){
                 
             }
             this.mode = mode;
-            this.time = modalService.getTimeString(this.start)
+            
 
         },
         header: "",
@@ -59,24 +63,22 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     var pendingEventSource = {};
 
     // Services and Hairdressers
-    $scope.Hairdresser = "John Doe";
+    $scope.Hairdresser = {
+        Name: "",
+        color: ""
+    };
+
     crudFactory.getHairdressers().then(function (promise) {
         $scope.Hairdressers = promise;
     });
 
-    $scope.Service = "empty";;
+    $scope.selectedService = "";
     crudFactory.getServices().then(function (promise) {
          $scope.Services = promise
     });
 
     $scope.showservice = false;
-    $scope.onselectservice = function () {      
-        console.log("onselectservice");
-    };
 
-    $scope.onserviceclick = function () {
-        console.log("option clicked");
-    }
     // **********************
     // *** Event services ***
     // **********************
