@@ -11,6 +11,10 @@
                 scope.modal.eventStart = date;
                 scope.modal.eventEnd = new Date(date.toUTCString());
                 scope.modal.eventEnd.setUTCHours(date.getUTCHours() + 1);
+                scope.modal.hairdresser = "";
+                scope.modal.customer = "";
+                scope.modal.phone = "";
+                scope.modal.email = "";
                 scope.modal.clickMode('dayclick');
                 scope.$apply();
             };
@@ -20,6 +24,10 @@
                 scope.modal.allday = event.allday;
                 scope.modal.eventStart = event.start;
                 scope.modal.eventEnd = event.end;
+                scope.modal.hairdresser = event.hairdresser;
+                scope.modal.customer = event.customer;
+                scope.modal.phone = event.phone;
+                scope.modal.email = event.email;
                 scope.modal.clickMode('eventclick');
                 scope.modal.event = event;
             };
@@ -53,6 +61,8 @@
                 scope.modal.title = scope.selectedService;
                 scope.modal.clickMode('externaldnd');
                 scope.modal.eventStart = date;
+                scope.modal.eventEnd = new Date(date.toUTCString());
+                scope.modal.eventEnd.setUTCHours(date.getUTCHours() + 1);
                 //scope.modal.color = scope.Hairdresser.color;
                 scope.persistEvent();
                 console.log("Dropped at: " + date);

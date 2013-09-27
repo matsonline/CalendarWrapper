@@ -1,7 +1,7 @@
 ﻿
 
 
-CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'eventFactory', '$http', 'modalTimeTable', 'modalService', function ($scope, $modal, cwConfig, crudFactory, eventFactory, $http, modalTimeTable, modalService) {
+CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'eventFactory', '$http', 'modalTimeTable', 'modalService', '$filter', function ($scope, $modal, cwConfig, crudFactory, eventFactory, $http, modalTimeTable, modalService, $filter) {
     // *************
     // *** Panel ***
     // *************
@@ -72,15 +72,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
         $modal({ template: '/CalendarWrapper/modal2.html', persist: true, show: true, backdrop: 'static', scope: $scope });
     };
 
-    // *********************
-    // *** Event sources ***
-    // *********************
-    $scope.status = "";
-    $scope.events = [];
-    var pendingEvent = {};
-    var pendingEventSource = {};
-
-    // Services and Hairdressers
+    // Hairdressers
 
     crudFactory.getHairdressers().then(function (promise) {
         $scope.Hairdressers = promise;
@@ -92,6 +84,19 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
         });
     };
 
+    $scope.hairdresserSelect = function () {
+        console.log("hairdresserSelect")
+    }
+    $scope.$watch('modal.hairdresser', function (newValue, oldValue) {
+        if (newValue != "") {
+            var filterArr = $filter('filter')($scope.Hairdressers, newValue, true)
+            if (filterArr.length == 1) {
+                console.log(filterArr[0].color);
+                $scope.modal.color = filterArr[0].color;
+            }
+        }
+    });
+    // Services
     $scope.selectedService = "";
     crudFactory.getServices().then(function (promise) {
          $scope.Services = promise
@@ -104,6 +109,14 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
     }
 
     $scope.showservice = false;
+
+    // *********************
+    // *** Event sources ***
+    // *********************
+    $scope.status = "";
+    $scope.events = [];
+    var pendingEvent = {};
+    var pendingEventSource = {};
 
     // **********************
     // *** Event services ***
