@@ -17,12 +17,12 @@ CWApp.factory('modalService', function () {
             
             return timestring
         },
-        updateStartFromTimestring: function (start, timestring) {
+        updateDateTimeFromTimestring: function (DateTime, timestring) {
             var hh = timestring.substring(0, 2);
             var mm = timestring.substring(3)
-            start.setUTCHours(parseInt(hh)-2, parseInt(mm));
+            DateTime.setUTCHours(parseInt(hh)-2, parseInt(mm));
 
-            return start;
+            return DateTime;
 
         }
     }
@@ -31,12 +31,17 @@ CWApp.factory('modalService', function () {
 CWApp.factory('eventFactory', function () {
 
     return {
-        createEvent: function (titleParam, allDayParam, startParam, colorParam) {
+        createEvent: function (title, allday, eventStart, eventEnd, hairdresser, customer, phone, email, color) {
             return {
-                title: titleParam,
-                allDay: allDayParam,
-                start: startParam,
-                color: colorParam
+                title: title,
+                allday: allday,
+                eventStart: eventStart,
+                eventEnd: eventEnd,
+                hairdresser: hairdresser,
+                customer: customer,
+                phone: phone,
+                email: email,
+                color: color
             };
         }
     };
@@ -58,8 +63,16 @@ CWApp.factory('crudFactory', ['$http', '$q', function ($http, $q) {
             var deferred = $q.defer();
             var config = { method: 'GET', url: '/api/Event', params: filterobject };
             var successGetEventsCallback = function (data, status) {
-                $('#calendar').fullCalendar('addEventSource', data);
-                deferred.resolve(data);
+
+                var eventsource = $.map(data, function (ev) {
+
+                    ev.start = ev.eventStart;
+                    ev.end = ev.eventEnd;
+                    return ev;
+                });
+
+                $('#calendar').fullCalendar('addEventSource', eventsource);
+                deferred.resolve(eventsource);
             };
 
             $http(config).success(successGetEventsCallback).error(errorCallback);

@@ -12,39 +12,43 @@
             </div>
             <div class="span6">
                 <label>Frisör</label>
-                <input type="text" id="hairdresser" ng-model="filter.Hairdresser" bs-typeahead="typeHairdressersFn" data-min-length="0"/>
+                <input type="text" id="hairdresser" ng-model="modal.hairdresser" bs-typeahead="typeHairdressersFn" data-min-length="0"/>
             </div>
         </div>
         <div class="row-fluid">
             <div class="span6">
                 <label>Datum</label>
-                <input id='datepicker' type="text" ng-model="modal.start" data-date-format="yyyy-mm-dd" data-date-weekstart="1" data-date-language="sv" bs-datepicker ng-change="dateSelect()" />
+                <input id='datepicker' type="text" ng-model="modal.eventStart" data-date-format="yyyy-mm-dd" data-date-weekstart="1" data-date-language="sv" bs-datepicker ng-change="dateSelect()" />
             </div>
             <div class="span6">
                 <label>Kund</label>
-                <input type="text" />
+                <input type="text" ng-model="modal.customer"/>
             </div>
         </div>
         <div class="row-fluid">
             <div class="span6">
                 <label>Start</label>
-                <input type="text" ng-model="modal.time" ng-change="timeSelect()" bs-typeahead="timeTable" />
+                <input type="text" ng-model="modal.timeStart" ng-change="timeStartSelect()" bs-typeahead="timeTable" />
             </div>
             <div class="span6">
                 <label>Telefon</label>
-                <input type="text" />
+                <input type="text" ng-model="modal.phone"/>
             </div>
         </div>
         <div class="row-fluid">
             <div class="span6">
                 <label>Slut</label>
-                <input type="text" ng-model="modal.time" ng-change="timeSelect()" bs-typeahead="timeTable">
+                <input type="text" ng-model="modal.timeEnd" ng-change="timeEndSelect()" bs-typeahead="timeTable">
             </div>
             <div class="span6">
                 <label>E-post</label>
-                <input type="text" />
+                <input type="text" ng-model="modal.email"/>
             </div>
         </div>
+        <p>start: {{modal.eventStart}}</p>
+        <p>end: {{modal.eventEnd}}</p>
+        <p>timeStart: {{modal.timeStart}}</p>
+        <p>timeEnd: {{modal.timeEnd}}</p>
         
     </fieldset>
 </div>

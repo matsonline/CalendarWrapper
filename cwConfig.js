@@ -16,6 +16,7 @@
     axisFormat: 'HH:mm',
     allDayText: 'Heldag',
     firstHour: 8,
+    slotMinutes: 15,
     monthNames: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli',
 'Augusti', 'September', 'Oktober', 'November', 'December'],
     monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul',
@@ -46,7 +47,8 @@
     droppable: true,
 
     // Events
-    //events: '/api/Event',
+    startParam: 'eventStart',
+    endParam: 'eventEnd'
 
     // etc...
 

@@ -8,24 +8,42 @@
             cwConfig.dayClick = function (date, allDay, jsEvent, view) {
                 scope.modal.title = "";
                 scope.modal.allday = false;
-                scope.modal.start = date;
+                scope.modal.eventStart = date;
+                scope.modal.eventEnd = new Date(date.toUTCString());
+                scope.modal.eventEnd.setUTCHours(date.getUTCHours() + 1);
                 scope.modal.clickMode('dayclick');
+                scope.$apply();
             };
             cwConfig.eventClick = function (event, element) {
                 scope.modal.id = event.id;
                 scope.modal.title = event.title;
                 scope.modal.allday = event.allday;
-                scope.modal.start = event.start;
+                scope.modal.eventStart = event.start;
+                scope.modal.eventEnd = event.end;
                 scope.modal.clickMode('eventclick');
                 scope.modal.event = event;
             };
 
             cwConfig.eventDrop = function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-                // resize and translate
+                
+                // move event
                 scope.modal.id = event.id;
                 scope.modal.title = event.title;
                 scope.modal.allday = event.allday;
-                scope.modal.start = event.start;
+                scope.modal.eventStart = event.start;
+                scope.modal.eventEnd = event.end;
+                scope.modal.clickMode('dnd');
+                scope.modal.event = event;
+                scope.persistEvent();
+            },
+            cwConfig.eventResize = function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+                console.log("resize");
+                // resize event
+                scope.modal.id = event.id;
+                scope.modal.title = event.title;
+                scope.modal.allday = event.allday;
+                scope.modal.eventStart = event.start;
+                scope.modal.eventEnd = event.end;
                 scope.modal.clickMode('dnd');
                 scope.modal.event = event;
                 scope.persistEvent();
@@ -34,7 +52,7 @@
                 // external drop
                 scope.modal.title = scope.selectedService;
                 scope.modal.clickMode('externaldnd');
-                scope.modal.start = date;
+                scope.modal.eventStart = date;
                 //scope.modal.color = scope.Hairdresser.color;
                 scope.persistEvent();
                 console.log("Dropped at: " + date);
@@ -66,7 +84,7 @@ CWApp.directive('hairdresserSelectbox', ['modalService', function (modalService)
             });
 
             elem.on("select2-selecting", function (e) {
-                scope.filter.Hairdresser = e.object.text;
+                scope.modal.hairdresser = e.object.text;
                 scope.modal.color = scope.hairdresserColor = e.val;
                 scope.hairdresserBorderStyle = { border: '1px solid ' + scope.hairdresserColor };
                 scope.hairdresserColorStyle = { color: scope.hairdresserColor };
