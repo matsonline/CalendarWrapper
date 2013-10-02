@@ -12,6 +12,7 @@
                 scope.modal.eventEnd = new Date(date.toUTCString());
                 scope.modal.eventEnd.setUTCHours(date.getUTCHours() + 1);
                 scope.modal.hairdresser = "";
+                scope.modal.color = "";
                 scope.modal.customer = "";
                 scope.modal.phone = "";
                 scope.modal.email = "";
@@ -25,11 +26,13 @@
                 scope.modal.eventStart = event.start;
                 scope.modal.eventEnd = event.end;
                 scope.modal.hairdresser = event.hairdresser;
+                scope.modal.color = event.color;
                 scope.modal.customer = event.customer;
                 scope.modal.phone = event.phone;
                 scope.modal.email = event.email;
                 scope.modal.clickMode('eventclick');
                 scope.modal.event = event;
+                scope.$apply();
             };
 
             cwConfig.eventDrop = function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
@@ -40,20 +43,31 @@
                 scope.modal.allday = event.allday;
                 scope.modal.eventStart = event.start;
                 scope.modal.eventEnd = event.end;
+                scope.modal.hairdresser = event.hairdresser;
+                scope.modal.color = event.color;
+                scope.modal.customer = event.customer;
+                scope.modal.phone = event.phone;
+                scope.modal.email = event.email;
                 scope.modal.clickMode('dnd');
                 scope.modal.event = event;
+                scope.$apply();
                 scope.persistEvent();
             },
             cwConfig.eventResize = function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-                console.log("resize");
                 // resize event
                 scope.modal.id = event.id;
                 scope.modal.title = event.title;
                 scope.modal.allday = event.allday;
                 scope.modal.eventStart = event.start;
                 scope.modal.eventEnd = event.end;
+                scope.modal.hairdresser = event.hairdresser;
+                scope.modal.color = event.color;
+                scope.modal.customer = event.customer;
+                scope.modal.phone = event.phone;
+                scope.modal.email = event.email;
                 scope.modal.clickMode('dnd');
                 scope.modal.event = event;
+                scope.$apply();
                 scope.persistEvent();
             },
             cwConfig.drop = function (date) {
@@ -63,7 +77,10 @@
                 scope.modal.eventStart = date;
                 scope.modal.eventEnd = new Date(date.toUTCString());
                 scope.modal.eventEnd.setUTCHours(date.getUTCHours() + 1);
-                //scope.modal.color = scope.Hairdresser.color;
+                scope.modal.customer = "";
+                scope.modal.phone = "";
+                scope.modal.email = "";
+                scope.$apply();
                 scope.persistEvent();
                 console.log("Dropped at: " + date);
             },
@@ -71,6 +88,9 @@
                 var tableElement = $(element[0]).attr('ng-click', 'openModal()');
                 $compile(tableElement)(scope);
             };
+            cwConfig.eventRender = function (event, element) {
+                element.find('.fc-event-title').append("<br/>" + event.customer + "<br/>" + event.phone);
+            }
             elem.fullCalendar(cwConfig);
 
 
@@ -90,14 +110,15 @@ CWApp.directive('hairdresserSelectbox', ['modalService', function (modalService)
         link: function (scope, elem, attr) {
 
             elem.select2({
-                placeholder: "Välj Frisör"
-            });
+                placeholder: "Välj Frisör",
+                });
 
             elem.on("select2-selecting", function (e) {
                 scope.modal.hairdresser = e.object.text;
                 scope.modal.color = scope.hairdresserColor = e.val;
                 scope.hairdresserBorderStyle = { border: '1px solid ' + scope.hairdresserColor };
                 scope.hairdresserColorStyle = { color: scope.hairdresserColor };
+                scope.filter.hairdresser = e.object.text;
                 scope.$apply();
                 scope.getEvents();
             });
@@ -139,3 +160,5 @@ CWApp.directive('timepicker', ['$compile', function ($compile) {
         }
     }
 }]);
+
+

@@ -74,6 +74,8 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
 
     // Hairdressers
 
+    $scope.selctedHairdresser = "1";
+
     crudFactory.getHairdressers().then(function (promise) {
         $scope.Hairdressers = promise;
     });
@@ -84,18 +86,16 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
         });
     };
 
-    $scope.hairdresserSelect = function () {
-        console.log("hairdresserSelect")
-    }
-    $scope.$watch('modal.hairdresser', function (newValue, oldValue) {
-        if (newValue != "") {
-            var filterArr = $filter('filter')($scope.Hairdressers, newValue, true)
-            if (filterArr.length == 1) {
-                console.log(filterArr[0].color);
-                $scope.modal.color = filterArr[0].color;
-            }
-        }
+    $scope.$on('modal-shown', function () {
+        $('#modalhdrslbx').select2("val", $scope.modal.color);
+        $scope.filter.hairdresser = $scope.modal.hairdresser;
     });
+
+    $scope.$on('modal-hidden', function () {
+        $('.modal').remove();
+    });
+
+    
     // Services
     $scope.selectedService = "";
     crudFactory.getServices().then(function (promise) {
@@ -132,7 +132,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
             console.log("semething is wrong here!")
     };
 
-    $scope.filter = { hairdresser: $scope.modal.hairdresser };
+    $scope.filter = { hairdresser: "" };
     // Get events
     $('#calendar').fullCalendar('removeEventSource', $scope.events);
      crudFactory.getEvents($scope.filter).then(function (promise) {
@@ -183,6 +183,7 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
 
         $('#calendar').fullCalendar('updateEvent', clickEvent);
         crudFactory.updateEvent(updatedEv);
+        $scope.getEvents();
     };
  
 
