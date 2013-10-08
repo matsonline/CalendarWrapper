@@ -182,8 +182,10 @@ CWApp.controller('CWCtrl', ['$scope', '$modal', 'cwConfig', 'crudFactory', 'even
         updatedEv.color = clickEvent.color = $scope.modal.color;
 
         $('#calendar').fullCalendar('updateEvent', clickEvent);
-        crudFactory.updateEvent(updatedEv);
-        $scope.getEvents();
+        crudFactory.updateEvent(updatedEv).then(function (promise) {
+            $scope.getEvents();
+        });
+        
     };
  
 

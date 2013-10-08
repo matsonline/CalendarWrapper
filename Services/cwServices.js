@@ -49,7 +49,7 @@ CWApp.factory('eventFactory', function () {
 
 CWApp.factory('crudFactory', ['$http', '$q', function ($http, $q) {
 
-    var url = '/api/Event';
+    var url = '/api/Eventapi';
 
     var errorCallback = function (data, status, headers, config) {
         console.log("Error!");
@@ -61,7 +61,7 @@ CWApp.factory('crudFactory', ['$http', '$q', function ($http, $q) {
     return {
         getEvents: function (filterobject) {
             var deferred = $q.defer();
-            var config = { method: 'GET', url: '/api/Event', params: filterobject };
+            var config = { method: 'GET', url: '/api/Eventapi', params: filterobject };
             var successGetEventsCallback = function (data, status) {
 
                 var eventsource = $.map(data, function (ev) {
@@ -96,9 +96,14 @@ CWApp.factory('crudFactory', ['$http', '$q', function ($http, $q) {
             $http.delete(url + '/' + id).success(successCallback).error(errorCallback);
         },
         updateEvent: function (event) {
+            var deferred = $q.defer();
+            var updateEventSuccessCallback = function (data, status) {
+                deferred.resolve(status);
+            }
             //$('#calendar').fullCalendar('updateEvent', event);
-            var ev = {}
-            $http.put(url, event).success(successCallback).error(errorCallback);
+            //var ev = {}
+            $http.put(url, event).success(updateEventSuccessCallback).error(errorCallback);
+            return deferred.promise;
         },
         getHairdressers: function () {
             var deferred = $q.defer();
